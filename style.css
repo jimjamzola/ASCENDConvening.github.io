@@ -41,7 +41,14 @@ body::after{
 }
 
 /* ===== layout helpers ===== */
-.container{max-width:var(--max-width);margin:0 auto;padding:0 24px}
+/* center page content and keep a stable readable measure */
+.container{
+  max-width:var(--max-width);
+  margin:0 auto;
+  padding:0 24px;
+  width:100%;
+  box-sizing:border-box;
+}
 main{padding-bottom:64px}
 section{padding:64px 0}
 h1,h2,h3{margin:0 0 16px}
@@ -85,38 +92,62 @@ a{color:inherit}
     radial-gradient(circle at 75% 120%, rgba(248,250,252,0.12), transparent 60%);
   filter:blur(28px);opacity:0.65;
 }
-.hero .lead{font-size:1.02rem;color:var(--muted);max-width:70ch}
+/* make lead text constrained + centered within max measure for readability */
+.hero .lead{
+  font-size:1.02rem;color:var(--muted);max-width:70ch;margin:0 auto;
+}
 
 /* ========== generic card ========== */
+/* center cards, keep fixed max width so internal layout is stable */
 .card{
-  margin-top:24px;
+  margin:24px auto;
   padding:24px 24px 22px;
   border-radius:var(--radius);
   background:var(--card-bg);
   border:1px solid var(--card-border);
   box-shadow:0 14px 40px rgba(15,23,42,0.8);
+  width:100%;
+  max-width:var(--max-width);
 }
 
 /* ensure sections that use an inner .card keep spacing */
-.section-card{ /* optional utility if you prefer section > .section-card */
+.section-card{
   margin-top:24px;padding:32px;border-radius:var(--radius);
 }
 
 /* little helper: note text */
 .note{font-size:0.98rem;color:var(--muted)}
 
-/* big CTA button */
+/* big CTA button: fixed contrast, readable, accessible size */
 .big-button{
-  display:inline-block;margin-top:14px;padding:12px 22px;border-radius:999px;
-  text-decoration:none;font-weight:700;font-size:0.98rem;
-  background:linear-gradient(90deg,var(--gold),var(--gold-2));color:#111827;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  margin-top:14px;
+  padding:12px 28px;
+  min-width:140px;
+  border-radius:999px;
+  text-decoration:none;
+  font-weight:700;
+  font-size:0.98rem;
+  background:linear-gradient(90deg,var(--gold),var(--gold-2));
+  color:#111827; /* dark text for best contrast on gold */
   box-shadow:0 12px 34px rgba(15,23,42,0.9);
+  position:relative;
+  z-index:3; /* sit above card decorations */
+  line-height:1;
+  text-shadow:none; /* ensure crisp text */
+  border:1px solid rgba(0,0,0,0.06);
 }
+.big-button:focus{outline:2px solid rgba(255,198,39,0.3);outline-offset:3px}
 .big-button:hover{transform:translateY(-1px);box-shadow:0 18px 46px rgba(15,23,42,0.95)}
+
+/* small variant used in header/nav to keep consistent */
+.big-button.small{padding:8px 16px;min-width:120px;font-size:0.92rem}
 
 /* ========== sponsors ========== */
 /* keep the sponsor row compact and inline; but allow wrapping */
-.sponsor-row{margin-top:26px}
+.sponsor-row{margin-top:26px;text-align:center}
 .sponsor{
   display:inline-block;padding:14px 18px;border-radius:999px;
   background:rgba(15,23,42,0.92);border:1px solid rgba(148,163,184,0.36);
@@ -129,23 +160,24 @@ a{color:inherit}
 .sponsor a:hover{color:#facc15}
 
 /* ========== schedule block ========== */
-/* NOTE: .container.card is supported (for backwards compatibility), but prefer .container > .card pattern.
-   The grid below uses a stable two-column layout (time | content). */
+/* Use centered card with a stable two-column grid (time | content) */
 .container.card{
   background:var(--card-bg);border-radius:var(--radius);
   border:1px solid var(--card-border);box-shadow:0 14px 40px rgba(15,23,42,0.8);
-  padding:32px 24px 28px;margin-bottom:24px;
+  padding:32px 24px 28px;margin:24px auto 32px;
+  max-width:var(--max-width);
 }
 .container.card h2{margin-top:0;margin-bottom:18px;font-size:1.35rem}
 
 /* stable schedule grid: fixed narrow time column + fluid content column */
 .schedule-grid{
   display:grid;
-  grid-template-columns:120px 1fr; /* time | content */
+  grid-template-columns:140px 1fr; /* wider time column for readability */
   column-gap:28px;
   row-gap:14px;
   align-items:start;
   font-size:0.96rem;
+  max-width:100%;
 }
 .schedule-time{
   font-weight:600;text-align:right;padding-right:6px;color:var(--muted);white-space:nowrap;
@@ -154,7 +186,6 @@ a{color:inherit}
 .schedule-item{color:#e5e7eb}
 
 /* ========== other sections spacing fixes ========== */
-/* restore sensible top margins so cards do not butt up against each other */
 #logistics .card,
 #register .card,
 #contact .card{
@@ -197,9 +228,11 @@ li{margin-bottom:6px}
   .schedule-grid{grid-template-columns:1fr;row-gap:12px}
   .schedule-time{text-align:left;padding-right:0}
   .sponsor{border-radius:12px;display:block}
+  .big-button{min-width:120px;padding:10px 18px}
 }
 @media (max-width:480px){
   .hero{padding-top:56px}
   .hero h1{font-size:1.8rem}
 }
+
 
