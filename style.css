@@ -116,5 +116,85 @@ li{margin-bottom:6px}
   .hero h1{font-size:1.9rem}
 }
 
+/* ------------------ URGENT PATCH: CTA shrink + stable schedule rows ------------------ */
+
+/* 1) Make the hero CTA card shrink-to-content on wide screens (tight card under intro) */
+.hero .hero-cta,
+.hero-cta.card,
+.card.hero-cta {
+  display: inline-block !important;   /* shrink to content */
+  width: auto !important;
+  max-width: 560px !important;        /* sensible upper bound; adjust if you want tighter */
+  padding: 20px 22px !important;
+  box-shadow: 0 12px 36px rgba(7,10,18,0.6) !important;
+}
+
+/* If there is a generic rule forcing .card width:100%, make sure hero-cta opts out */
+.hero .card { width: auto; }
+
+/* 2) Replace schedule grid with a stable, single-row flex layout.
+   Each .schedule-row is one logical row: left = content, right = time pinned */
+.schedule-row {
+  display: flex !important;
+  align-items: flex-start;
+  justify-content: space-between;
+  column-gap: 24px;
+  row-gap: 8px;
+  padding: 12px 0;
+  border-top: 1px solid rgba(148,163,184,0.10);
+  flex-wrap: nowrap;              /* important: prevent the row from splitting into multiple "rows" */
+}
+
+/* left column: allow content to shrink gracefully when needed */
+.schedule-main {
+  flex: 1 1 60%;
+  min-width: 0;                   /* allow text to truncate/wrap without forcing layout break */
+  color: #e6eef5;
+  line-height: 1.45;
+}
+
+/* right column: fixed width to keep times aligned */
+.schedule-time {
+  flex: 0 0 160px;                /* fixed box for times so they align on the right */
+  text-align: right;
+  white-space: nowrap;
+  color: var(--muted);
+  font-weight: 700;
+  margin-left: 8px;
+}
+
+/* Visual tidy: avoid the weird duplicated time artifacts on very wide screens */
+.schedule-row + .schedule-row { /* harmless, but keeps rhythm */ }
+
+/* 3) Responsive fallback: stack rows on narrow screens */
+@media (max-width: 700px) {
+  .hero .hero-cta,
+  .hero-cta.card,
+  .card.hero-cta {
+    display: block !important;
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+
+  .schedule-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 6px;
+  }
+  .schedule-time {
+    text-align: left;
+    flex: none;
+    white-space: normal;
+    margin-left: 0;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+}
+
+/* 4) Defensive: ensure no earlier rule accidentally floats schedule time into a second column */
+.schedule-grid,
+.container.card .schedule-grid {
+  width: 100%;
+}
 
 
