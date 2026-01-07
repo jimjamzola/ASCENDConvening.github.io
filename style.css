@@ -235,4 +235,129 @@ li{margin-bottom:6px}
   .hero h1{font-size:1.8rem}
 }
 
+/* ===================== Fixes / layout polish ===================== */
+
+/* 1) Prevent section link rules from stealing CTA color.
+   Keep colored links in section text, but exclude .big-button anchors. */
+#logistics a:not(.big-button),
+#register a:not(.big-button),
+#contact a:not(.big-button) {
+  color: var(--gold);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  font-weight: 600;
+}
+
+/* 2) Force strong, readable CTA button style (override earlier rules) */
+.big-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 14px;
+  padding: 12px 26px;               /* slightly wider for balance */
+  border-radius: 999px;
+  text-decoration: none;            /* ensure no underline */
+  font-weight: 800;
+  font-size: 1.0rem;
+  line-height: 1;
+  color: #0b1320 !important;        /* dark text for high contrast */
+  background: linear-gradient(90deg, var(--gold) 0%, var(--gold-2) 100%) !important;
+  box-shadow: 0 12px 34px rgba(11,19,32,0.9);
+  border: 1px solid rgba(0,0,0,0.08);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.05);
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.big-button:hover,
+.big-button:focus {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 46px rgba(11,19,32,0.95);
+  outline: none;
+}
+
+/* If the CTA contains an inner <span> or icon, inherit color */
+.big-button * { color: inherit !important; }
+
+/* 3) Make the register card and hero lead centered and constrained */
+#register .card,
+#logistics .card,
+#contact .card,
+.container.card {
+  max-width: var(--max-width);
+  margin-left: auto;
+  margin-right: auto;
+  padding: 32px;
+  border-radius: var(--radius);
+}
+
+/* center the "consider joining us" phrasing visually with the CTA */
+#register .card .note,
+#register .card p,
+#register .card .lead {
+  max-width: 68ch;
+  margin: 0 0 18px 0;
+}
+
+/* ensure CTA sits visually left-aligned under the text on wide screens but centers on narrow */
+#register .card .cta-row {
+  display:flex;
+  align-items:center;
+  gap:18px;
+}
+@media (max-width:900px){
+  #register .card .cta-row { justify-content:center; }
+}
+
+/* 4) Schedule grid: keep stable two-column layout and center heading */
+.container.card h2 {
+  text-align: left;
+  margin-bottom: 18px;
+}
+
+/* stable schedule grid (time column right-aligned, content left) */
+.schedule-grid {
+  display:grid;
+  grid-template-columns: 120px 1fr;
+  column-gap: 36px;
+  row-gap: 18px;
+  align-items:start;
+}
+
+/* time column style: keep it right-aligned but reduce visual noise */
+.schedule-time {
+  font-weight:700;
+  text-align:right;
+  padding-right:10px;
+  color: var(--muted);
+  white-space:nowrap;
+}
+
+/* content column: stronger heading weight and tighter spacing */
+.schedule-item strong {
+  display:block;
+  margin-bottom:6px;
+  font-weight:800;
+  color: #f8fafc;
+}
+.schedule-item { color: #e6eef6; line-height:1.5; }
+
+/* 5) Small accessibility / contrast helpers */
+.card { background: rgba(8,12,22,0.86); border: 1px solid rgba(148,163,184,0.12); }
+a.big-button:focus { box-shadow: 0 0 0 4px rgba(255,198,54,0.14); }
+
+/* 6) If any section-wide anchor rules still color CTAs, be bulletproof:
+   this is intentionally specific and last-resort. */
+#register a.big-button,
+#logistics a.big-button,
+#contact a.big-button {
+  color: inherit !important;
+  background: linear-gradient(90deg, var(--gold), var(--gold-2)) !important;
+  text-decoration: none !important;
+}
+
+/* 7) Minor nicety: center hero lead on wide screens for balance */
+.hero .lead { margin-left: 0; margin-right: 0; max-width: 72ch; }
+
+/* 8) Reduce over-large outer paddings that made sections feel disconnected */
+section { padding: 48px 0; }
+
 
