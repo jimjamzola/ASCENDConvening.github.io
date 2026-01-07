@@ -197,4 +197,37 @@ li{margin-bottom:6px}
   width: 100%;
 }
 
+#nav-toggle {
+  display: none !important;
+}
+
+/* -------- Center hero content above sponsor panel -------- */
+
+.hero {
+  text-align: center;
+}
+
+.hero h1,
+.hero .lead {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Center the CTA card itself */
+.hero-cta {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: left; /* keep text inside readable */
+}
+
+/* Center the button inside the CTA */
+.hero-cta .big-button {
+  margin-left: 0;
+}
+
+/* Ensure sponsor panel remains centered (already is, but be explicit) */
+.sponsor-row {
+  text-align: center;
+}
+
 
